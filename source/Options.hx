@@ -7,6 +7,7 @@ import Controls.KeyboardScheme;
 import flixel.FlxG;
 import openfl.display.FPS;
 import openfl.Lib;
+import options.CustomControlsState;
 
 class OptionCategory
 {
@@ -693,27 +694,6 @@ class NPSDisplayOption extends Option
 	}
 }
 
-class ReplayOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-	
-	public override function press():Bool
-	{
-		trace("switch");
-		FlxG.switchState(new LoadReplayState());
-		return false;
-	}
-
-	private override function updateDisplay():String
-	{
-		return "Load replays";
-	}
-}
-
 class AccuracyDOption extends Option
 {
 	public function new(desc:String)
@@ -967,6 +947,7 @@ class ResetSettings extends Option
 		FlxG.save.data.optimize = null;
 		FlxG.save.data.cacheImages = null;
 		FlxG.save.data.editor = null;
+		FlxG.save.data.reanimated = null;
 
 		KadeEngineData.initSave();
 		confirm = false;
@@ -978,5 +959,46 @@ class ResetSettings extends Option
 	private override function updateDisplay():String
 	{
 		return confirm ? "Confirm Settings Reset" : "Reset Settings";
+	}
+}
+
+class MobileControls extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	public override function press():Bool
+	{
+		trace("switch");
+		FlxG.switchState(new CustomControlsState());
+		return false;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Mobile Controls";
+	}
+}
+
+class ReanimatedZardySkins extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+	public override function press():Bool
+	{
+		FlxG.save.data.reanimated = !FlxG.save.data.reanimated;
+		display = updateDisplay();
+		return true;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Reanimated Zardy Skins " + (!FlxG.save.data.reanimated ? "off" : "on");
 	}
 }

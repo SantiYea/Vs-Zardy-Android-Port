@@ -1,4 +1,4 @@
-#if sys
+#if (sys && !mobile)
 package;
 
 import lime.app.Application;

@@ -9,7 +9,6 @@ import LuaClass.LuaReceptor;
 import openfl.display3D.textures.VideoTexture;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
-#if cpp
 import flixel.tweens.FlxEase;
 import openfl.filters.ShaderFilter;
 import flixel.tweens.FlxTween;
@@ -25,6 +24,9 @@ import llua.LuaL;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
+import sys.FileSystem;
+import sys.io.File;
+import openfl.Assets;
 
 class ModchartState 
 {
@@ -266,12 +268,36 @@ class ModchartState
 			case 'dad-battle': songLowercase = 'dadbattle';
 			case 'philly-nice': songLowercase = 'philly';
 		}
+		
+		if (!FileSystem.exists(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png"))
+		{
+		    var imageBullShit = "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png";
+		    var fileImage = openfl.Assets.getBytes(imageBullShit);
+		
+		    FileSystem.createDirectory(Main.path + "assets");
+		    FileSystem.createDirectory(Main.path + "assets/data");
+		    FileSystem.createDirectory(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase());
+		
+		    File.saveBytes(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png", fileImage);
+		}
+		
+		if (!FileSystem.exists(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".xml"))
+		{
+		    var xmlBullShit = "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".xml";
+		    var fileXml = openfl.Assets.getBytes(xmlBullShit);
+		
+		    FileSystem.createDirectory(Main.path + "assets");
+		    FileSystem.createDirectory(Main.path + "assets/data");
+		    FileSystem.createDirectory(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase());
+		
+		    File.saveBytes(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".xml", fileXml);
+		}
 
-		var data:BitmapData = BitmapData.fromFile(Sys.getCwd() + "assets/data/" + songLowercase + '/' + spritePath + ".png");
+		var data:BitmapData = BitmapData.fromFile(Main.path + "assets/data/" + songLowercase + '/' + spritePath + ".png");
 
 		var sprite:FlxSprite = new FlxSprite(0,0);
 
-		sprite.frames = FlxAtlasFrames.fromSparrow(FlxGraphic.fromBitmapData(data), Sys.getCwd() + "assets/data/" + songLowercase + "/" + spritePath + ".xml");
+		sprite.frames = FlxAtlasFrames.fromSparrow(FlxGraphic.fromBitmapData(data), Main.path + "assets/data/" + songLowercase + "/" + spritePath + ".xml");
 
 		trace(sprite.frames.frames.length);
 
@@ -301,10 +327,22 @@ class ModchartState
 			case 'philly-nice': songLowercase = 'philly';
 		}
 
-		var path = Sys.getCwd() + "assets/data/" + songLowercase + '/';
+		var path = Main.path + "assets/data/" + songLowercase + '/';
+		
+		if (!FileSystem.exists(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png"))
+		{
+		    var imageBullShit = "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png";
+		    var fileImage = openfl.Assets.getBytes(imageBullShit);
+		
+		    FileSystem.createDirectory(Main.path + "assets");
+		    FileSystem.createDirectory(Main.path + "assets/data");
+		    FileSystem.createDirectory(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase());
+		
+		    File.saveBytes(Main.path + "assets/data/" + PlayState.SONG.song.toLowerCase()  + "/" + spritePath + ".png", fileImage);
+		}
 
-		if (PlayState.isSM)
-			path = PlayState.pathToSm + "/";
+		/*if (PlayState.isSM)
+			path = PlayState.pathToSm + "/";*/
 
 		var data:BitmapData = BitmapData.fromFile(path + spritePath + ".png");
 
@@ -385,8 +423,8 @@ class ModchartState
 		}
 
 		var path = Paths.lua(songLowercase + "/modchart");
-		if (PlayState.isSM)
-			path = PlayState.pathToSm + "/modchart.lua";
+		/*if (PlayState.isSM)
+			path = PlayState.pathToSm + "/modchart.lua";*/
 
 		var result = LuaL.dofile(lua, path); // execute le file
 
@@ -408,7 +446,7 @@ class ModchartState
 		setVar("distractions", FlxG.save.data.distractions);
                 setVar("colour", FlxG.save.data.colour);    
 		
-	        setVar("curStep", 0);
+	    setVar("curStep", 0);
 		setVar("curBeat", 0);
 		setVar("crochet", Conductor.stepCrochet);
 		setVar("safeZoneOffset", Conductor.safeZoneOffset);
@@ -511,4 +549,3 @@ class ModchartState
         return new ModchartState(isStoryMode);
     }
 }
-#end

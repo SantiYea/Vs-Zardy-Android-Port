@@ -16,6 +16,8 @@ class Character extends FlxSprite
 	public var curCharacter:String = 'bf';
 
 	public var holdTimer:Float = 0;
+	
+	public var reanimated:String = '';
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -24,6 +26,10 @@ class Character extends FlxSprite
 		animOffsets = new Map<String, Array<Dynamic>>();
 		curCharacter = character;
 		this.isPlayer = isPlayer;
+		
+		if (FlxG.save.data.reanimated) {
+			reanimated = 'Reanimated';
+		}
 
 		var tex:FlxAtlasFrames;
 		if(FlxG.save.data.antialiasing)
@@ -115,7 +121,7 @@ class Character extends FlxSprite
 
 				flipX = true;
 			case 'zardyMyBeloved':
-				tex = Paths.getSparrowAtlas('Zardy','ChallengeWeek');
+				tex = Paths.getSparrowAtlas('Zardy' + reanimated,'ChallengeWeek');
 				frames = tex;
 				animation.addByPrefix('idle', 'Idle', 14);
 				animation.addByPrefix('singUP', 'Sing Up', 24);
@@ -131,7 +137,7 @@ class Character extends FlxSprite
 
 				playAnim('idle');
 			case 'zardyButDARK':
-				tex = Paths.getSparrowAtlas('five-minute-song/ZardyDark','ChallengeWeek');
+				tex = Paths.getSparrowAtlas('five-minute-song/ZardyDark' + reanimated,'ChallengeWeek');
 				frames = tex;
 				animation.addByPrefix('idle', 'Idle', 14);
 				animation.addByPrefix('singUP', 'Sing Up', 24);

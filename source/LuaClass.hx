@@ -15,6 +15,7 @@ import flixel.FlxCamera;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import haxe.DynamicAccess;
+import vm.lua.*;
 
 // completely yoinked from andromeda (thats what you get for stealing my callback inputs you fuckers /j)
 

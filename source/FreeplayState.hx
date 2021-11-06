@@ -3,7 +3,7 @@ import lime.app.Application;
 import openfl.utils.Future;
 import openfl.media.Sound;
 import flixel.system.FlxSound;
-#if sys
+#if (sys && !mobile)
 import smTools.SMFile;
 import sys.FileSystem;
 import sys.io.File;
@@ -92,7 +92,7 @@ class FreeplayState extends MusicBeatState
 			var diffsThatExist = [];
 
 
-			#if sys
+			#if (sys && !mobile)
 			if (FileSystem.exists('assets/data/${format}/${format}-hard.json'))
 				diffsThatExist.push("Hard");
 			if (FileSystem.exists('assets/data/${format}/${format}-easy.json'))
@@ -128,7 +128,7 @@ class FreeplayState extends MusicBeatState
 
 		trace("tryin to load sm files");
 
-		#if sys
+		#if (sys && !mobile)
 		for(i in FileSystem.readDirectory("assets/sm/"))
 		{
 			trace(i);
@@ -439,7 +439,7 @@ class FreeplayState extends MusicBeatState
 			PlayState.storyDifficulty = curDifficulty;
 			PlayState.storyWeek = songs[curSelected].week;
 			trace('CUR WEEK' + PlayState.storyWeek);
-			#if sys
+			#if (sys && !mobile)
 			if (songs[curSelected].songCharacter == "sm")
 				{
 					PlayState.isSM = true;
@@ -539,6 +539,7 @@ class FreeplayState extends MusicBeatState
 		diffText.text = CoolUtil.difficultyFromInt(curDifficulty).toUpperCase();
 		
 		#if PRELOAD_ALL
+		#if (sys && !mobile)
 		if (songs[curSelected].songCharacter == "sm")
 		{
 			var data = songs[curSelected];
@@ -550,6 +551,9 @@ class FreeplayState extends MusicBeatState
 		}
 		else
 			FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		#else
+		FlxG.sound.playMusic(Paths.inst(songs[curSelected].songName), 0);
+		#end		
 		#end
 
 		var hmm;
@@ -598,7 +602,7 @@ class SongMetadata
 {
 	public var songName:String = "";
 	public var week:Int = 0;
-	#if sys
+	#if (sys && !mobile)
 	public var sm:SMFile;
 	public var path:String;
 	#end
@@ -606,7 +610,7 @@ class SongMetadata
 
 	public var diffs = [];
 
-	#if sys
+	#if (sys && !mobile)
 	public function new(song:String, week:Int, songCharacter:String, ?sm:SMFile = null, ?path:String = "")
 	{
 		this.songName = song;

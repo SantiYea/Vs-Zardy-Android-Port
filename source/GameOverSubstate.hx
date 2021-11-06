@@ -6,6 +6,7 @@ import flixel.FlxSubState;
 import flixel.math.FlxPoint;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import flixel.FlxCamera;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -26,7 +27,7 @@ class GameOverSubstate extends MusicBeatSubstate
 			default:
 				daBf = 'bf';
 		}
-
+		
 		super();
 
 		Conductor.songPosition = 0;
@@ -48,6 +49,15 @@ class GameOverSubstate extends MusicBeatSubstate
 		FlxG.camera.target = null;
 
 		bf.playAnim('firstDeath');
+
+		#if mobileC
+		addVirtualPad(NONE, A_B);
+		
+		var camcontrol = new FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		_virtualpad.cameras = [camcontrol];
+		#end
 	}
 
 	var startVibin:Bool = false;
@@ -74,8 +84,9 @@ class GameOverSubstate extends MusicBeatSubstate
 				FlxG.switchState(new MainMenuState());
 			else
 				FlxG.switchState(new FreeplayState());
-			PlayState.loadRep = false;
+			//PlayState.loadRep = false;
 			PlayState.stageTesting = false;
+			PlayState.fuckYourselfStupidLooping = false;
 		}
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.curFrame == 12)
@@ -123,6 +134,7 @@ class GameOverSubstate extends MusicBeatSubstate
 				{
 					LoadingState.loadAndSwitchState(new PlayState());
 					PlayState.stageTesting = false;
+					PlayState.fuckYourselfStupidLooping = false;
 				});
 			});
 		}

@@ -5,7 +5,7 @@ class Ratings
     public static function GenerateLetterRank(accuracy:Float) // generate a letter ranking
     {
         var ranking:String = "N/A";
-		if(FlxG.save.data.botplay && !PlayState.loadRep)
+		if(FlxG.save.data.botplay)
 			ranking = "BotPlay";
 
         if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0) // Marvelous (SICK) Full Combo
@@ -86,7 +86,7 @@ class Ratings
 
         if (accuracy == 0)
             ranking = "N/A";
-		else if(FlxG.save.data.botplay && !PlayState.loadRep)
+		else if(FlxG.save.data.botplay)
 			ranking = "BotPlay";
 
         return ranking;
@@ -123,11 +123,11 @@ class Ratings
     {
         return
          (FlxG.save.data.npsDisplay ?																							// NPS Toggle
-         "NPS: " + nps + " (Max " + maxNPS + ")" + (!PlayStateChangeables.botPlay || PlayState.loadRep ? " | " : "") : "") +								// 	NPS
-         (!PlayStateChangeables.botPlay || PlayState.loadRep ? "Score:" + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) + 		// Score
+         "NPS: " + nps + " (Max " + maxNPS + ")" + (!PlayStateChangeables.botPlay ? " | " : "") : "") +								// 	NPS
+         (!PlayStateChangeables.botPlay ? "Score:" + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) + 		// Score
          (FlxG.save.data.accuracyDisplay ?																						// Accuracy Toggle
          " | Combo Breaks:" + PlayState.misses + 																				// 	Misses/Combo Breaks
-         " | Accuracy:" + (PlayStateChangeables.botPlay && !PlayState.loadRep ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +  				// 	Accuracy
+         " | Accuracy:" + (PlayStateChangeables.botPlay ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +  				// 	Accuracy
          " | " + GenerateLetterRank(accuracy) : "") : ""); 																		// 	Letter Rank
     }
 
