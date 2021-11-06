@@ -1,4 +1,4 @@
-#if sys
+#if (sys && !mobile)
 package smTools;
 
 class SMMeasure

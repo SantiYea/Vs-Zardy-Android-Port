@@ -1,4 +1,4 @@
-#if sys
+#if (sys && !mobile)
 package smTools;
 import sys.io.File;
 import haxe.Exception;
